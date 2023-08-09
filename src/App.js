@@ -6,38 +6,10 @@ import { Grid, Switch, Button } from "@mui/material/";
 import { OrbitControls } from '@react-three/drei'
 import { SecondModifiedBatiment } from "./SecondModifiedBatiment";
 import "./AppStyle.css"; // Import the CSS file
+import ARScene from "./ARScene";
 
-function Model(props) {
-  const { scene } = useGLTF("/SecondModifiedBatiment.gltf");
-
-  return (
-    <primitive
-      object={scene}
-      scale={props.scale || [0.1, 0.1, 0.1]}
-      position={props.position || [0, 0, 5]}
-      onClick={props.onClick}
-    />
-  );
-}
-
-function Sphere() {
-  const meshRef = useRef();
-
-  useFrame(() => {
-    meshRef.current.rotation.x += 0.01;
-    meshRef.current.rotation.y += 0.01;
-  });
-
-  return (
-    <mesh ref={meshRef} scale={[0.1, 0.1, 0.1]}>
-      <sphereBufferGeometry />
-      <meshStandardMaterial color={"#FA4"} />
-    </mesh>
-  );
-}
 
 function App() {
-  const [showCube, setShowCube] = useState(true);
   const [mode, setMode] = useState("vr");
   const [isAutoRotating, setIsAutoRotating] = useState(true);
   const [isXrSupported, setIsXrSupported] = useState(false);
@@ -108,12 +80,13 @@ function App() {
 
             <Grid item>
               <label htmlFor="autorotate">
-                "Auto-rotate"
+                Auto-rotate
               </label>
             </Grid>
           </Grid>
         </Grid>
 
+        <Grid item style={{ flex: 1, width: "100%" }}>
         <Canvas style={{ background: "white" }}>
           <ambientLight intensity={1} />
           <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, 10]} />
@@ -127,20 +100,22 @@ function App() {
             <OrbitControls autoRotate={isAutoRotating} autoRotateSpeed={1} />
           </PerspectiveCamera>
         </Canvas>
+        </Grid>
 
         {isXrSupported &&
           <Grid item style={{ flex: 1, width: "100%" }}>
             <XRCanvas style={{ height: "80%", width: "100%" }}>
-              {showCube ? (
-                <Model scale={[0.5, 0.5, 0.5]} />
-              ) : (
-                <Sphere />
-              )}
-              <ambientLight />
-              <pointLight position={[10, 10, 10]} />
               
-                <OrbitControls />
+              <ambientLight intensity={1} />
+              <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, 10]} />
+              <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, -10]} />
+              <spotLight intensity={1} angle={1.5} penumbra={1} position={[10, 15, 0]} />
+              <spotLight intensity={1} angle={1.5} penumbra={1} position={[-10, 15, 0]} />
               
+              <ARScene/>
+
+              <OrbitControls />
+
             </XRCanvas>
           </Grid>
         }

@@ -1,4 +1,4 @@
-/* App.css */
+/* App.css
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -28,18 +28,18 @@ body {
   .switch-label {
     margin-left: 10px;
     font-size: 18px;
-  }
+  } */
   
-  .canvas-container {
+  /* .canvas-container {
     flex: 1;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-  }
+  } */
   
-  .canvas {
+  /* .canvas {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -52,5 +52,5 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
     height: 80%;
-  }
+  } */
   
