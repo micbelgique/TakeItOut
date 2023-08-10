@@ -18,7 +18,7 @@ function App() {
   const [isAutoRotating, setIsAutoRotating] = useState(true);
   const [isXrSupported, setIsXrSupported] = useState(false);
   const [objectPosition, setObjectPosition] = useState([10, 0, 0])
-  
+
 
   const handleSceneModeChange = (event) => {
     setMode(event.target.checked ? "ar" : "vr");
@@ -29,7 +29,7 @@ function App() {
 
   const onSelect = () => {
     setObjectPosition([5, 0, 0]);
-   
+
   }
   //  const XRCanvas = mode === "vr" ? VRCanvas : ARCanvas;
 
@@ -97,17 +97,18 @@ function App() {
         </Grid>
 
         <Grid item style={{ flex: 1, width: "100%" }}>
-        <ARButton sessionInit={{
-          requiredFeatures: ["hit-test"],
-        }}/>
+          <ARButton sessionInit={{
+            requiredFeatures: ["hit-test"],
+          }} />
           <Canvas onPointerMissed={onSelect}>
-          <XR referenceSpace="local">
-          <ambientLight intensity={1} />
-            <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, 10]} />
-            <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, -10]} />
-            <spotLight intensity={1} angle={1.5} penumbra={1} position={[10, 15, 0]} />
-            <spotLight intensity={1} angle={1.5} penumbra={1} position={[-10, 15, 0]} />
-            <XrHitModel/>
+            <XR referenceSpace="local">
+              <OrbitControls autoRotate={isAutoRotating}/>
+              <ambientLight intensity={1} />
+              <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, 10]} />
+              <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, -10]} />
+              <spotLight intensity={1} angle={1.5} penumbra={1} position={[10, 15, 0]} />
+              <spotLight intensity={1} angle={1.5} penumbra={1} position={[-10, 15, 0]} />
+              <XrHitModel/>
             </XR>
           </Canvas>
         </Grid>

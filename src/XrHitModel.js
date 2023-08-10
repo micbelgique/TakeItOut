@@ -41,7 +41,8 @@ const XrHitModel = () => {
 
   return (
     <>
-      <OrbitControls />
+    
+    
       <ambientLight />
 
       {isPresenting && (
@@ -59,7 +60,7 @@ const XrHitModel = () => {
         </>
       )}
 
-      {!isPresenting && <Model />}
+      {!isPresenting && <Model/>}
     </>
   );
 };
