@@ -1,37 +1,33 @@
 import React, { useRef, Suspense, useState, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "react-three-fiber";
-import { PerspectiveCamera, useGLTF } from "@react-three/drei";
+import { PerspectiveCamera, Sky, useGLTF } from "@react-three/drei";
 import { Grid, Switch, Button } from "@mui/material/";
 import { OrbitControls } from '@react-three/drei'
 import { SecondModifiedBatiment } from "./SecondModifiedBatiment";
 import "./AppStyle.css"; // Import the CSS file
-import ARScene from "./ARScene";
-import { Interactive, XR, ARButton, Controllers } from '@react-three/xr'
+
+import { Interactive, XR, ARButton, Controllers, XRButton, VRButton, Hands, TeleportationPlane } from '@react-three/xr'
 import Model from "./Model";
-import { Vector3 } from "three";
-import XrHitCube from "./XrHitModel";
+
 import XrHitModel from "./XrHitModel";
+import Floor from "./Floor";
+import { RayGrab } from "react-xr";
+
 
 
 function App() {
-  const [mode, setMode] = useState("vr");
+  const [mode, setMode] = useState("AR");
   const [isAutoRotating, setIsAutoRotating] = useState(true);
   const [isXrSupported, setIsXrSupported] = useState(false);
   const [objectPosition, setObjectPosition] = useState([10, 0, 0])
 
 
   const handleSceneModeChange = (event) => {
-    setMode(event.target.checked ? "ar" : "vr");
+    setMode(event.target.checked ? "AR" : "VR");
   };
   const handleAutoRotateChange = (event) => {
     setIsAutoRotating(event.target.checked);
   };
-
-  const onSelect = () => {
-    setObjectPosition([5, 0, 0]);
-
-  }
-  //  const XRCanvas = mode === "vr" ? VRCanvas : ARCanvas;
 
   useEffect(() => {
     async function checkXRSupport() {
@@ -60,7 +56,7 @@ function App() {
             <Grid container direction="row" alignItems="center">
               <Grid item style={{ width: "10vh" }}>
                 <Switch
-                  checked={mode === "ar"}
+                  checked={mode === "AR"}
                   onChange={handleSceneModeChange}
                   name="scene-mode-switch"
                 />
@@ -96,48 +92,53 @@ function App() {
           </Grid>
         </Grid>
 
+
         <Grid item style={{ flex: 1, width: "100%" }}>
-          <ARButton sessionInit={{
-            requiredFeatures: ["hit-test"],
-          }} />
-          <Canvas onPointerMissed={onSelect}>
-            <XR referenceSpace="local">
-              <OrbitControls autoRotate={isAutoRotating}/>
-              <ambientLight intensity={1} />
-              <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, 10]} />
-              <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, -10]} />
-              <spotLight intensity={1} angle={1.5} penumbra={1} position={[10, 15, 0]} />
-              <spotLight intensity={1} angle={1.5} penumbra={1} position={[-10, 15, 0]} />
-              <XrHitModel/>
-            </XR>
-          </Canvas>
+          {(mode === "AR") &&
+            <>
+              <ARButton mode={mode} sessionInit={{
+                requiredFeatures: ["hit-test"],
+              }} />
+              <Canvas >
+                <XR referenceSpace="local">
+                  <OrbitControls autoRotate={isAutoRotating} />
+                  <ambientLight intensity={1} />
+                  <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, 10]} />
+                  <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, -10]} />
+                  <spotLight intensity={1} angle={1.5} penumbra={1} position={[10, 15, 0]} />
+                  <spotLight intensity={1} angle={1.5} penumbra={1} position={[-10, 15, 0]} />
+                  <XrHitModel />
+                </XR>
+              </Canvas>
+            </>
+          }
+
+          {(mode === "VR") &&
+            <>
+              <VRButton />
+              <Canvas>
+                <XR>
+                  <Sky sunPosition={[0, 1, 0]} />
+                  <Floor />
+                  <ambientLight />
+                  <pointLight position={[10, 10, 10]} />
+                  <Controllers />
+                  <Hands />
+                  <TeleportationPlane
+                    rightHand={true}
+                    /** The maximum distance from the camera to the teleportation point. Default is `10` */
+                    maxDistance={10}
+                    /** The radial size of the teleportation marker. Default is `0.25` */
+                    size={0.25}
+                  />
+                  <RayGrab>
+                  <Model position={[0, 1.8, -1]} />
+                  </RayGrab>
+                </XR>
+              </Canvas>
+            </>
+          }
         </Grid>
-
-        {isXrSupported &&
-          <Grid item style={{ flex: 1, width: "100%" }}>
-            {/* <XRCanvas style={{ height: "80%", width: "100%" }} >
-
-              <ambientLight intensity={1} />
-              <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, 10]} />
-              <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, -10]} />
-              <spotLight intensity={1} angle={1.5} penumbra={1} position={[10, 15, 0]} />
-              <spotLight intensity={1} angle={1.5} penumbra={1} position={[-10, 15, 0]} />
-
-              <ARScene />
-            </XRCanvas> */}
-            {/* <ARButton />
-            <Canvas>
-              <XR referenceSpace="local">
-                <ambientLight />
-                <pointLight position={[10, 10, 10]} />
-                <Suspense fallback={null}>
-                  <Model/>
-                </Suspense>
-                <Controllers />
-              </XR>
-            </Canvas> */}
-          </Grid>
-        }
       </Grid>
     </>
   );
