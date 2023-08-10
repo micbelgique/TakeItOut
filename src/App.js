@@ -3,15 +3,12 @@ import { Canvas, useFrame, useThree } from "react-three-fiber";
 import { PerspectiveCamera, Sky, useGLTF } from "@react-three/drei";
 import { Grid, Switch, Button } from "@mui/material/";
 import { OrbitControls } from '@react-three/drei'
-import { SecondModifiedBatiment } from "./SecondModifiedBatiment";
 import "./AppStyle.css"; // Import the CSS file
-
-import { Interactive, XR, ARButton, Controllers, XRButton, VRButton, Hands, TeleportationPlane } from '@react-three/xr'
+import { Interactive, XR, ARButton, Controllers, XRButton, VRButton, Hands, TeleportationPlane, RayGrab } from '@react-three/xr'
 import Model from "./Model";
-
 import XrHitModel from "./XrHitModel";
 import Floor from "./Floor";
-import { RayGrab } from "react-xr";
+
 
 
 
@@ -132,7 +129,7 @@ function App() {
                     size={0.25}
                   />
                   <RayGrab>
-                  <Model position={[0, 1.8, -1]} />
+                    <Model position={[0, 1.8, -1]} />
                   </RayGrab>
                 </XR>
               </Canvas>
