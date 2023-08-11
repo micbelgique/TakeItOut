@@ -1,13 +1,13 @@
-import React, { useRef, Suspense, useState, useEffect } from "react";
-import { Canvas, useFrame, useThree } from "react-three-fiber";
-import { PerspectiveCamera, Sky, useGLTF } from "@react-three/drei";
-import { Grid, Switch, Button } from "@mui/material/";
+import React, { useState, useEffect } from "react";
+import { Canvas,  } from "react-three-fiber";
+
+import { Grid, Switch } from "@mui/material/";
 import { OrbitControls } from '@react-three/drei'
 import "./AppStyle.css"; // Import the CSS file
-import { Interactive, XR, ARButton, Controllers, XRButton, VRButton, Hands, TeleportationPlane, RayGrab } from '@react-three/xr'
-import Model from "./Model";
+import { XR, ARButton,  VRButton, } from '@react-three/xr'
+
 import XrHitModel from "./XrHitModel";
-import Floor from "./Floor";
+
 import VRScene from "./VRScene";
 
 

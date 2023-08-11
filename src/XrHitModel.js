@@ -1,4 +1,4 @@
-import { OrbitControls } from "@react-three/drei";
+
 import { useThree } from "@react-three/fiber";
 import { Interactive, useHitTest, useXR } from "@react-three/xr";
 import { useRef, useState } from "react";

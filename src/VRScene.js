@@ -1,9 +1,9 @@
 import { Sky, Text } from "@react-three/drei";
 import Floor from "./Floor";
-import { Controllers, Hands, Interactive, RayGrab, TeleportationPlane } from "@react-three/xr";
+import { Controllers, Hands, Interactive, TeleportationPlane } from "@react-three/xr";
 
 import Model from "./Model";
-import { useRef, useState } from "react";
+import {  useState } from "react";
 import { useFrame } from "react-three-fiber";
 
 const VRScene = () => {
@@ -11,18 +11,18 @@ const VRScene = () => {
     const [modelRotation, setModelRotation] = useState([0, 0, 0]);
     const [modelScale, setModelScale] = useState(0.1);
 
-    const [scalingSpeed, setScalingSpeed] = useState(0.0025);
-    const [turningSpeed, setTurningSpeed] = useState(0.01);
-    const [travelingSpeed, setTravelingSpeed] = useState(0.01);
+    const [scalingSpeed, ] = useState(0.0025);
+    const [turningSpeed, ] = useState(0.01);
+    const [travelingSpeed, ] = useState(0.01);
 
-    const [cubeBiggerPosition, setCubeBiggerPosition] = useState([1, 1.25, -0.25]);
-    const [cubeSmallerPosition, setCubeSmallerPosition] = useState([1, 1.25, 0]);
-    const [cubeTurnLeftPosition, setCubeTurnLeftPosition] = useState([1, 1.375, -0.25]);
-    const [cubeTurnRightPosition, setCubeTurnRightPosition] = useState([1, 1.375, 0]);
-    const [cubeMovingForwardPosition, setCubeMovingForwardPosition] = useState([1, 1.5, 0]);
-    const [cubeMovingBackwardPosition, setCubeMovingBackwardPosition] = useState([1, 1.5, -0.25]);
-    const [cubeGoingUpPosition, setCubeGoingUpPosition] = useState([1, 1.625, 0]);
-    const [cubeGoingDownPosition, setCubeGoingDownPosition] = useState([1, 1.625, -0.25]);
+    const [cubeBiggerPosition, ] = useState([1, 1.25, -0.25]);
+    const [cubeSmallerPosition, ] = useState([1, 1.25, 0]);
+    const [cubeTurnLeftPosition, ] = useState([1, 1.375, -0.25]);
+    const [cubeTurnRightPosition, ] = useState([1, 1.375, 0]);
+    const [cubeMovingForwardPosition, ] = useState([1, 1.5, 0]);
+    const [cubeMovingBackwardPosition, ] = useState([1, 1.5, -0.25]);
+    const [cubeGoingUpPosition, ] = useState([1, 1.625, 0]);
+    const [cubeGoingDownPosition, ] = useState([1, 1.625, -0.25]);
 
     const [needToGetBigger, setNeedToGetBigger] = useState(false);
     const [needtoGetSmaller, setNeedToGetSmaller] = useState(false);
