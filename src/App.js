@@ -17,7 +17,6 @@ function App() {
   const [mode, setMode] = useState("AR");
   const [isAutoRotating, setIsAutoRotating] = useState(true);
   const [isXrSupported, setIsXrSupported] = useState(false);
-  const [objectPosition, setObjectPosition] = useState([10, 0, 0])
 
 
   const handleSceneModeChange = (event) => {
@@ -64,7 +63,7 @@ function App() {
 
               <Grid item style={{ width: "15vh" }}>
                 <label htmlFor="scene-mode-switch">
-                  {mode === "vr" ? "VR Mode" : "AR Mode"}
+                  {mode === "VR" ? "VR Mode" : "AR Mode"}
                 </label>
               </Grid>
             </Grid>
@@ -90,11 +89,10 @@ function App() {
           </Grid>
         </Grid>
 
-
         <Grid item style={{ flex: 1, width: "100%" }}>
           {(mode === "AR") &&
             <>
-              <ARButton mode={mode} sessionInit={{
+              <ARButton  sessionInit={{
                 requiredFeatures: ["hit-test"],
               }} />
               <Canvas >
@@ -106,6 +104,7 @@ function App() {
                   <spotLight intensity={1} angle={1.5} penumbra={1} position={[10, 15, 0]} />
                   <spotLight intensity={1} angle={1.5} penumbra={1} position={[-10, 15, 0]} />
                   <XrHitModel />
+                  
                 </XR>
               </Canvas>
             </>
@@ -116,7 +115,7 @@ function App() {
               <VRButton />
               <Canvas>
                 <XR>
-                  <VRScene/>
+                  <VRScene />
                 </XR>
               </Canvas>
             </>
