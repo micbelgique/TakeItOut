@@ -1,4 +1,4 @@
-import { Sky } from "@react-three/drei";
+import { Sky, Text } from "@react-three/drei";
 import Floor from "./Floor";
 import { Controllers, Hands, Interactive, RayGrab, TeleportationPlane } from "@react-three/xr";
 
@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 import { useFrame } from "react-three-fiber";
 
 const VRScene = () => {
-    const [modelPosition, setModelPosition] = useState([0, 1, -3]);
+    const [modelPosition, setModelPosition] = useState([0, 1.5, -3]);
     const [modelRotation, setModelRotation] = useState([0, 0, 0]);
     const [modelScale, setModelScale] = useState(0.1);
 
@@ -15,14 +15,14 @@ const VRScene = () => {
     const [turningSpeed, setTurningSpeed] = useState(0.01);
     const [travelingSpeed, setTravelingSpeed] = useState(0.01);
 
-    const [cubeBiggerPosition, setCubeBiggerPosition] = useState([1, 0.25, -0.5]);
-    const [cubeSmallerPosition, setCubeSmallerPosition] = useState([1, 0.25, 0]);
-    const [cubeTurnLeftPosition, setCubeTurnLeftPosition] = useState([1, 0.65, -0.5]);
-    const [cubeTurnRightPosition, setCubeTurnRightPosition] = useState([1, 0.65, 0]);
-    const [cubeMovingForwardPosition, setCubeMovingForwardPosition] = useState([1, 1.05, 0]);
-    const [cubeMovingBackwardPosition, setCubeMovingBackwardPosition] = useState([1, 1.05, -0.5]);
-    const [cubeGoingUpPosition, setCubeGoingUpPosition] = useState([1, 1.45, 0]);
-    const [cubeGoingDownPosition, setCubeGoingDownPosition] = useState([1, 1.45, -0.5]);
+    const [cubeBiggerPosition, setCubeBiggerPosition] = useState([1, 1.25, -0.25]);
+    const [cubeSmallerPosition, setCubeSmallerPosition] = useState([1, 1.25, 0]);
+    const [cubeTurnLeftPosition, setCubeTurnLeftPosition] = useState([1, 1.375, -0.25]);
+    const [cubeTurnRightPosition, setCubeTurnRightPosition] = useState([1, 1.375, 0]);
+    const [cubeMovingForwardPosition, setCubeMovingForwardPosition] = useState([1, 1.5, 0]);
+    const [cubeMovingBackwardPosition, setCubeMovingBackwardPosition] = useState([1, 1.5, -0.25]);
+    const [cubeGoingUpPosition, setCubeGoingUpPosition] = useState([1, 1.625, 0]);
+    const [cubeGoingDownPosition, setCubeGoingDownPosition] = useState([1, 1.625, -0.25]);
 
     const [needToGetBigger, setNeedToGetBigger] = useState(false);
     const [needtoGetSmaller, setNeedToGetSmaller] = useState(false);
@@ -115,51 +115,107 @@ const VRScene = () => {
 
             <Interactive onSelectStart={handleSelectStartBiggerCube} onSelectEnd={handleSelectEndBiggerCube} onBlur={handleSelectEndBiggerCube}>
                 <mesh position={cubeBiggerPosition}>
-                    <boxGeometry args={[0.25, 0.25, 0.25]} />
-                    <meshStandardMaterial color={"red"} />
+                    <boxGeometry args={[0, 0.125, 0.25]} />
+                    <Text fontSize={0.05}
+                        color="white" anchorX="center"
+                        anchorY="middle"
+                        rotation={[0, -Math.PI / 2, 0]}
+                        position={[-0.001, 0, 0]} >
+                        Bigger
+                    </Text>
+                    <meshStandardMaterial color={"black"} />
                 </mesh>
             </Interactive>
 
             <Interactive onSelectStart={handleSelectStartSmallerCube} onSelectEnd={handleSelectEndSmallerCube} onBlur={handleSelectEndSmallerCube}>
                 <mesh position={cubeSmallerPosition}>
-                    <boxGeometry args={[0.25, 0.25, 0.25]} />
-                    <meshStandardMaterial color={"blue"} />
+                    <boxGeometry args={[0, 0.125, 0.25]} />
+                    <Text fontSize={0.05}
+                        color="black" anchorX="center"
+                        anchorY="middle"
+                        rotation={[0, -Math.PI / 2, 0]}
+                        position={[-0.001, 0, 0]} >
+                        Smaller
+                    </Text>
+                    <meshStandardMaterial color={"white"} />
                 </mesh>
             </Interactive>
             <Interactive onSelectStart={handleSelectStartTurnLeftCube} onSelectEnd={handleSelectEndTurnLeftCube} onBlur={handleSelectEndTurnLeftCube}>
                 <mesh position={cubeTurnLeftPosition}>
-                    <boxGeometry args={[0.25, 0.25, 0.25]} />
-                    <meshStandardMaterial color={"green"} />
+                    <boxGeometry args={[0, 0.125, 0.25]} />
+                    <Text fontSize={0.05}
+                        color="black" anchorX="center"
+                        anchorY="middle"
+                        rotation={[0, -Math.PI / 2, 0]}
+                        position={[-0.001, 0, 0]} >
+                        TurnLeft
+                    </Text>
+                    <meshStandardMaterial color={"white"} />
                 </mesh>
             </Interactive>
             <Interactive onSelectStart={handleSelectStartTurnRightCube} onSelectEnd={handleSelectEndTurnRightCube} onBlur={handleSelectEndTurnRightCube}>
                 <mesh position={cubeTurnRightPosition}>
-                    <boxGeometry args={[0.25, 0.25, 0.25]} />
-                    <meshStandardMaterial color={"purple"} />
+                    <boxGeometry args={[0, 0.125, 0.25]} />
+                    <Text fontSize={0.05}
+                        color="white" anchorX="center"
+                        anchorY="middle"
+                        rotation={[0, -Math.PI / 2, 0]}
+                        position={[-0.001, 0, 0]} >
+                        TurnRight
+                    </Text>
+                    <meshStandardMaterial color={"black"} />
                 </mesh>
             </Interactive>
             <Interactive onSelectStart={handleSelectStartMoveForwardCube} onSelectEnd={handleSelectEndMoveForwardCube} onBlur={handleSelectEndMoveForwardCube}>
                 <mesh position={cubeMovingForwardPosition}>
-                    <boxGeometry args={[0.25, 0.25, 0.25]} />
-                    <meshStandardMaterial color={"orange"} />
+                    <boxGeometry args={[0, 0.125, 0.25]} />
+                    <Text fontSize={0.05}
+                        color="black" anchorX="center"
+                        anchorY="middle"
+                        rotation={[0, -Math.PI / 2, 0]}
+                        position={[-0.001, 0, 0]} >
+                        Forward
+                    </Text>
+                    <meshStandardMaterial color={"white"} />
                 </mesh>
             </Interactive>
             <Interactive onSelectStart={handleSelectStartMoveBackwardCube} onSelectEnd={handleSelectEndMoveBackwardCube} onBlur={handleSelectEndMoveBackwardCube}>
                 <mesh position={cubeMovingBackwardPosition}>
-                    <boxGeometry args={[0.25, 0.25, 0.25]} />
-                    <meshStandardMaterial color={"blue"} />
+                    <boxGeometry args={[0, 0.125, 0.25]} />
+                    <Text fontSize={0.05}
+                        color="white" anchorX="center"
+                        anchorY="middle"
+                        rotation={[0, -Math.PI / 2, 0]}
+                        position={[-0.001, 0, 0]} >
+                        Backward
+                    </Text>
+                    <meshStandardMaterial color={"black"} />
                 </mesh>
             </Interactive>
             <Interactive onSelectStart={handleSelectStartGoUpCube} onSelectEnd={handleSelectEndGoUpCube} onBlur={handleSelectEndGoUpCube}>
                 <mesh position={cubeGoingUpPosition}>
-                    <boxGeometry args={[0.25, 0.25, 0.25]} />
-                    <meshStandardMaterial color={"yellow"} />
+                    <boxGeometry args={[0, 0.125, 0.25]} />
+                    <Text fontSize={0.05}
+                        color="white" anchorX="center"
+                        anchorY="middle"
+                        rotation={[0, -Math.PI / 2, 0]}
+                        position={[-0.001, 0, 0]} >
+                        Up
+                    </Text>
+                    <meshStandardMaterial color={"black"} />
                 </mesh>
             </Interactive>
             <Interactive onSelectStart={handleSelectStartGoDownCube} onSelectEnd={handleSelectEndGoDownCube} onBlur={handleSelectEndGoDownCube}>
                 <mesh position={cubeGoingDownPosition}>
-                    <boxGeometry args={[0.25, 0.25, 0.25]} />
-                    <meshStandardMaterial color={"black"} />
+                    <boxGeometry args={[0, 0.125, 0.25]} />
+                    <Text fontSize={0.05}
+                        color="black" anchorX="center"
+                        anchorY="middle"
+                        rotation={[0, -Math.PI / 2, 0]}
+                        position={[-0.001, 0, 0]} >
+                        Down
+                    </Text>
+                    <meshStandardMaterial color={"white"} />
                 </mesh>
             </Interactive>
         </>
