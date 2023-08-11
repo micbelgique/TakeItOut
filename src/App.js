@@ -8,6 +8,7 @@ import { Interactive, XR, ARButton, Controllers, XRButton, VRButton, Hands, Tele
 import Model from "./Model";
 import XrHitModel from "./XrHitModel";
 import Floor from "./Floor";
+import VRScene from "./VRScene";
 
 
 
@@ -43,7 +44,7 @@ function App() {
         alignItems="center"
         style={{ height: "100vh" }} // Adjust the height of the container to fill the viewport
       >
-        <h1>DEMO AR/VR</h1>
+        <h1>Dimension Swap</h1>
         {!isXrSupported ?
           <Grid item>
             <h3>XR is not supported</h3>
@@ -115,22 +116,7 @@ function App() {
               <VRButton />
               <Canvas>
                 <XR>
-                  <Sky sunPosition={[0, 1, 0]} />
-                  <Floor />
-                  <ambientLight />
-                  <pointLight position={[10, 10, 10]} />
-                  <Controllers />
-                  <Hands />
-                  <TeleportationPlane
-                    rightHand={true}
-                    /** The maximum distance from the camera to the teleportation point. Default is `10` */
-                    maxDistance={10}
-                    /** The radial size of the teleportation marker. Default is `0.25` */
-                    size={0.25}
-                  />
-                  <RayGrab>
-                    <Model position={[0, 1.8, -1]} />
-                  </RayGrab>
+                  <VRScene/>
                 </XR>
               </Canvas>
             </>
