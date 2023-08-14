@@ -6,10 +6,10 @@ import Model from "./Model";
 import {  useState } from "react";
 import { useFrame } from "react-three-fiber";
 
-const VRScene = () => {
+const VRScene = (props) => {
     const [modelPosition, setModelPosition] = useState([0, 1.5, -3]);
     const [modelRotation, setModelRotation] = useState([0, 0, 0]);
-    const [modelScale, setModelScale] = useState(0.1);
+    const [modelScale, setModelScale] = useState(props.scale || 0.1);
 
     const [scalingSpeed, ] = useState(0.0025);
     const [turningSpeed, ] = useState(0.01);
@@ -110,7 +110,7 @@ const VRScene = () => {
                 size={0.25}
             />
 
-            <Model position={modelPosition} scale={[modelScale, modelScale, modelScale]} rotation={modelRotation} />
+            <Model url={props.modelUrl} position={modelPosition} scale={[modelScale, modelScale, modelScale]} rotation={modelRotation} />
 
 
             <Interactive onSelectStart={handleSelectStartBiggerCube} onSelectEnd={handleSelectEndBiggerCube} onBlur={handleSelectEndBiggerCube}>

@@ -6,15 +6,16 @@ import Model from "./Model";
 
 
 
-const XrHitModel = () => {
+const XrHitModel = (props) => {
   const reticleRef = useRef();
   const secondReticleRef = useRef();
   const thirdReticleRef = useRef();
   const [currentModel, setCurrentModel] = useState({ position: [10, 0, 0], rotation: [0, 0, 0] });
-  const [modelScale, setModelScale] = useState(0.0150)
+  const [modelScale, setModelScale] = useState(props.scale || 0.0150)
   const [scaleAddition] = useState(0.0005);
 
   const { isPresenting } = useXR();
+  console.log("ptn d'URL: "+props.modelUrl)
 
   useThree(({ camera }) => {
     if (!isPresenting) {
@@ -81,7 +82,7 @@ const XrHitModel = () => {
       {isPresenting && (
         <>
           <Interactive onSelect={(e) => { turnModel(e) }}>
-            <Model position={currentModel.position} rotation={currentModel.rotation} scale={[modelScale, modelScale, modelScale]} />
+            <Model url={props.modelUrl} position={currentModel.position} rotation={currentModel.rotation} scale={[modelScale, modelScale, modelScale]} />
           </Interactive>
 
           <Interactive onSelect={placeModel}>
