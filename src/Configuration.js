@@ -7,7 +7,7 @@ function Configuration() {
 
     const handleButtonClick = () => {
         if (!urlField || !scaleField) return;
-        const url = new URL("http://localhost:3000/viewer");
+        const url = new URL("https://ambitious-cliff-03009ad03.3.azurestaticapps.net/viewer");
         url.searchParams.set("URL", encodeURIComponent(urlField));
         url.searchParams.set("SCALE", scaleField);
 
