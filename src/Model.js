@@ -1,14 +1,19 @@
 
+import { useEffect } from "react";
 import { useLoader } from "react-three-fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 function Model(props) {
     // const { scene } = useGLTF("https://sa0dimensionswap.blob.core.windows.net/models/SecondModifiedBatiment.gltf");
-    console.log("url : " + props.url)
-    const gltf = useLoader(GLTFLoader, props.url || "")
     
+    const gltf = useLoader(GLTFLoader, props.modelUrl || "")
 
+    useEffect(() => {
+        console.log("url : " + props.position)
+    }, props.position)
+    
     return (
+        <>
         <primitive
             object={gltf.scene}
             scale={props.scale || [0.1, 0.1, 0.1]}
@@ -16,7 +21,10 @@ function Model(props) {
             rotation={props.rotation || [0, 0, 0]}
             onClick={props.onClick}
         />
+        </>
+        
     );
 }
+
 
 export default Model;

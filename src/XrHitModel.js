@@ -82,7 +82,7 @@ const XrHitModel = (props) => {
       {isPresenting && (
         <>
           <Interactive onSelect={(e) => { turnModel(e) }}>
-            <Model url={props.modelUrl} position={currentModel.position} rotation={currentModel.rotation} scale={[modelScale, modelScale, modelScale]} />
+            <Model modelUrl={props.modelUrl} position={currentModel.position} rotation={currentModel.rotation} scale={[modelScale, modelScale, modelScale]} />
           </Interactive>
 
           <Interactive onSelect={placeModel}>
@@ -109,7 +109,7 @@ const XrHitModel = (props) => {
         </>
       )}
 
-      {!isPresenting && <Model />}
+      {!isPresenting && <Model modelUrl={props.modelUrl}/>}
     </>
   );
 };
