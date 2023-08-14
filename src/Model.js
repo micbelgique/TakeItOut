@@ -1,12 +1,11 @@
 
-import { useEffect } from "react";
 import { useLoader } from "react-three-fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 function Model(props) {
-    // const { scene } = useGLTF("https://sa0dimensionswap.blob.core.windows.net/models/SecondModifiedBatiment.gltf");
+
     
-    const gltf = useLoader(GLTFLoader, props.modelUrl || "")
+    const gltf = useLoader(GLTFLoader, props.modelUrl || "/SecondModifiedBatiment")
 
 
     
