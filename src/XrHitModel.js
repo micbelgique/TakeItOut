@@ -3,16 +3,16 @@ import { useThree } from "@react-three/fiber";
 import { Interactive, useHitTest, useXR } from "@react-three/xr";
 import { useRef, useState } from "react";
 import Model from "./Model";
-import { PositionPoint } from "@react-three/drei";
-import { Vector3 } from "three";
+
 
 
 const XrHitModel = () => {
   const reticleRef = useRef();
   const secondReticleRef = useRef();
-    const [currentModel, setCurrentModel] = useState({position: [10,0,0], rotation:[0,0,0]});
-
-    const [retColor, setRetColor] = useState("white")
+  const thirdReticleRef = useRef();
+  const [currentModel, setCurrentModel] = useState({ position: [10, 0, 0], rotation: [0, 0, 0] });
+  const [modelScale, setModelScale] = useState(0.0150)
+  const [scaleAddition] = useState(0.0005);
 
   const { isPresenting } = useXR();
 
@@ -33,52 +33,74 @@ const XrHitModel = () => {
       secondReticleRef.current.quaternion,
       secondReticleRef.current.scale
     );
+    hitMatrix.decompose(
+      thirdReticleRef.current.position,
+      thirdReticleRef.current.quaternion,
+      thirdReticleRef.current.scale
+    );
 
     reticleRef.current.rotation.set(-Math.PI / 2, 0, 0);
     secondReticleRef.current.rotation.set(-Math.PI / 2, 0, 0);
-    secondReticleRef.current.position.y -= 1.5;
-    secondReticleRef.current.position.z -= 0.5;
+    thirdReticleRef.current.rotation.set(-Math.PI / 2, 0, 0);
+
+    secondReticleRef.current.position.y -= 1;
+    secondReticleRef.current.position.z -= 0.25;
+    thirdReticleRef.current.position.y -= 1;
+    thirdReticleRef.current.position.z += 0.25;
 
   });
 
   const placeModel = (e) => {
     let position = e.intersection.object.position.clone();
-    const offset = 0.05; // Remplacez par la valeur d'offset souhaitée
+    const offset = 0.05; 
     position.y += offset;
-    // let position2 = {...position}
-    // alert(JSON.stringify(position) + " /// " + JSON.stringify(position2) )
-    // position = new PositionPoint(position.x, position.y, position.z)
-    setRetColor("red");
-    setCurrentModel({position: position, rotation: currentModel.rotation});
+
+    setCurrentModel({ position: position, rotation: currentModel.rotation });
   };
 
+  const makeModelBigger = ()=>{
+    setModelScale(modelScale + scaleAddition)
+  }
+  const makeModelSmaller = ()=>{
+    if( modelScale > scaleAddition)setModelScale(modelScale - scaleAddition)
+  }
+
   const turnModel = (e) => {
-    
-    const newRotation = [currentModel.rotation[0], currentModel.rotation[1]+0.25, currentModel.rotation[2]]
-    
-    setCurrentModel({position: currentModel.position, rotation: newRotation});
+
+    const newRotation = [currentModel.rotation[0], currentModel.rotation[1] + 0.25, currentModel.rotation[2]]
+
+    setCurrentModel({ position: currentModel.position, rotation: newRotation });
   };
 
   return (
     <>
-    
-    
+
+
       <ambientLight />
 
       {isPresenting && (
         <>
-          <Interactive onSelect={(e)=>{turnModel(e)}}>
-          <Model position={currentModel.position} rotation={currentModel.rotation} scale={[0.0150, 0.0150, 0.0150]}/>
+          <Interactive onSelect={(e) => { turnModel(e) }}>
+            <Model position={currentModel.position} rotation={currentModel.rotation} scale={[modelScale, modelScale, modelScale]} />
           </Interactive>
-          
+
           <Interactive onSelect={placeModel}>
             <mesh ref={reticleRef} rotation-x={-Math.PI / 2}>
               <ringGeometry args={[0.03, 0.05, 32]} />
-              <meshStandardMaterial color={retColor} />
+              <meshStandardMaterial color={"white"} />
             </mesh>
+
+          </Interactive>
+          <Interactive onSelect={makeModelBigger}>
             <mesh ref={secondReticleRef} rotation-x={-Math.PI / 2}>
               <ringGeometry args={[0.03, 0.05, 32]} />
-              <meshStandardMaterial color={"yellow"} />
+              <meshStandardMaterial color={"red"} />
+            </mesh>
+          </Interactive>
+          <Interactive onSelect={makeModelSmaller}>
+            <mesh ref={thirdReticleRef} rotation-x={-Math.PI / 2}>
+              <ringGeometry args={[0.03, 0.05, 32]} />
+              <meshStandardMaterial color={"green"} />
             </mesh>
           </Interactive>
 
@@ -86,7 +108,7 @@ const XrHitModel = () => {
         </>
       )}
 
-      {!isPresenting && <Model/>}
+      {!isPresenting && <Model />}
     </>
   );
 };
