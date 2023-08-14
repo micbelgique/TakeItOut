@@ -1,9 +1,7 @@
-import { Button } from "@mui/base";
-import { Container, TextField } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Button, Container, TextField, Typography } from "@mui/material";
 
 function Configuration() {
-
     const [urlField, setUrlField] = useState("");
     const [scaleField, setScaleField] = useState(0.1);
 
@@ -12,32 +10,36 @@ function Configuration() {
         const url = new URL("http://localhost:3000/viewer");
         url.searchParams.set("URL", encodeURIComponent(urlField));
         url.searchParams.set("SCALE", scaleField);
-        
+
         window.location.href = url.toString();
-      };
+    };
+
     return (
-        <Container sx={{ display: "flex", flexDirection: "column", mt: "6rem" }}>
+        <Container maxWidth="sm" sx={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "6rem" }}>
+            <Typography variant="h4" sx={{ marginBottom: "2rem" }}>
+                Dimension Swap
+            </Typography>
             <TextField
                 fullWidth
                 id="urlField"
-                label="Url"
-                variant="standard"
+                label="URL"
+                variant="outlined"
                 value={urlField}
                 onChange={(e) => setUrlField(e.target.value)}
                 required
-                sx={{ width: "75%", ml: "10%" }}
+                sx={{ marginBottom: "1rem" }}
             />
             <TextField
                 fullWidth
                 type="number"
                 id="scaleField"
                 label="Model Scale"
-                variant="standard"
+                variant="outlined"
                 value={scaleField}
                 onChange={(e) => setScaleField(e.target.value)}
                 required
-                sx={{ width: "75%", ml: "10%" }}
-                min={0.00001}
+                inputProps={{ min: 0.00001 }}
+                sx={{ marginBottom: "2rem" }}
             />
 
             <Button
@@ -45,16 +47,14 @@ function Configuration() {
                 sx={{
                     backgroundColor: "#7bbaff",
                     fontWeight: "bold",
-                    mt: "2rem",
+                    marginTop: "2rem",
                 }}
                 onClick={handleButtonClick}
             >
                 Submit
             </Button>
-
-
         </Container>
     );
-};
+}
 
 export default Configuration;

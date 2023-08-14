@@ -8,9 +8,7 @@ function Model(props) {
     
     const gltf = useLoader(GLTFLoader, props.modelUrl || "")
 
-    useEffect(() => {
-        console.log("url : " + props.position)
-    }, props.position)
+
     
     return (
         <>

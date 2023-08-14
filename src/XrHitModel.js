@@ -15,7 +15,6 @@ const XrHitModel = (props) => {
   const [scaleAddition] = useState(0.0005);
 
   const { isPresenting } = useXR();
-  console.log("ptn d'URL: "+props.modelUrl)
 
   useThree(({ camera }) => {
     if (!isPresenting) {
