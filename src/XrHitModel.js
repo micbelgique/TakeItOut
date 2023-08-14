@@ -3,10 +3,16 @@ import { useThree } from "@react-three/fiber";
 import { Interactive, useHitTest, useXR } from "@react-three/xr";
 import { useRef, useState } from "react";
 import Model from "./Model";
+import { PositionPoint } from "@react-three/drei";
+import { Vector3 } from "three";
+
 
 const XrHitModel = () => {
   const reticleRef = useRef();
+  const secondReticleRef = useRef();
     const [currentModel, setCurrentModel] = useState({position: [10,0,0], rotation:[0,0,0]});
+
+    const [retColor, setRetColor] = useState("white")
 
   const { isPresenting } = useXR();
 
@@ -22,13 +28,27 @@ const XrHitModel = () => {
       reticleRef.current.quaternion,
       reticleRef.current.scale
     );
+    hitMatrix.decompose(
+      secondReticleRef.current.position,
+      secondReticleRef.current.quaternion,
+      secondReticleRef.current.scale
+    );
 
     reticleRef.current.rotation.set(-Math.PI / 2, 0, 0);
+    secondReticleRef.current.rotation.set(-Math.PI / 2, 0, 0);
+    secondReticleRef.current.position.y -= 1.5;
+    secondReticleRef.current.position.z -= 0.5;
+
   });
 
   const placeModel = (e) => {
     let position = e.intersection.object.position.clone();
-  
+    const offset = 0.05; // Remplacez par la valeur d'offset souhaitée
+    position.y += offset;
+    // let position2 = {...position}
+    // alert(JSON.stringify(position) + " /// " + JSON.stringify(position2) )
+    // position = new PositionPoint(position.x, position.y, position.z)
+    setRetColor("red");
     setCurrentModel({position: position, rotation: currentModel.rotation});
   };
 
@@ -54,7 +74,11 @@ const XrHitModel = () => {
           <Interactive onSelect={placeModel}>
             <mesh ref={reticleRef} rotation-x={-Math.PI / 2}>
               <ringGeometry args={[0.03, 0.05, 32]} />
-              <meshStandardMaterial color={"white"} />
+              <meshStandardMaterial color={retColor} />
+            </mesh>
+            <mesh ref={secondReticleRef} rotation-x={-Math.PI / 2}>
+              <ringGeometry args={[0.03, 0.05, 32]} />
+              <meshStandardMaterial color={"yellow"} />
             </mesh>
           </Interactive>
 
