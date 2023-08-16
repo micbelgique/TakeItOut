@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Canvas, } from "react-three-fiber";
-
-import { Grid, Switch } from "@mui/material/";
-import { OrbitControls } from '@react-three/drei'
-import "./AppStyle.css"; // Import the CSS file
+import { Grid} from "@mui/material/";
 import { XR, ARButton, VRButton, } from '@react-three/xr'
 
 import XrHitModel from "./XrHitModel";
@@ -14,26 +11,18 @@ import {isMobile} from 'react-device-detect';
 function Viewer() {
     const searchParams = new URLSearchParams(document.location.search);
     const [mode, setMode] = useState("VR");
-    const [isAutoRotating, setIsAutoRotating] = useState(true);
-    const [isXrSupported, setIsXrSupported] = useState(false);
+  
 
     const [modelUrl] = useState(
         decodeURIComponent(searchParams.get("URL") ?? "")
     );
     console.log("LE URL: "+modelUrl)
     const [scale] = useState(parseFloat(searchParams.get("SCALE") ?? "0.1"));
-
-
-    const handleSceneModeChange = (event) => {
-        setMode(event.target.checked ? "AR" : "VR");
-    };
     
-
     useEffect(() => {
         async function checkXRSupport() {
             const supported = await navigator.xr.isSessionSupported("immersive-vr");
-            setIsXrSupported(supported);
-            setMode(isMobile ? "AR" : (supported ? "VR" : "AR"))
+            setMode((!isMobile && supported) ? "VR" : "AR")
         }
 
         checkXRSupport();
