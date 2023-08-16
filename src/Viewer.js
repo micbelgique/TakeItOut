@@ -9,13 +9,11 @@ import { XR, ARButton, VRButton, } from '@react-three/xr'
 import XrHitModel from "./XrHitModel";
 
 import VRScene from "./VRScene";
-
-
-
+import {isMobile} from 'react-device-detect';
 
 function Viewer() {
     const searchParams = new URLSearchParams(document.location.search);
-    const [mode, setMode] = useState("AR");
+    const [mode, setMode] = useState("VR");
     const [isAutoRotating, setIsAutoRotating] = useState(true);
     const [isXrSupported, setIsXrSupported] = useState(false);
 
@@ -37,6 +35,7 @@ function Viewer() {
         async function checkXRSupport() {
             const supported = await navigator.xr.isSessionSupported("immersive-vr");
             setIsXrSupported(supported);
+            setMode(isMobile ? "AR" : (supported ? "VR" : "AR"))
         }
 
         checkXRSupport();
@@ -51,31 +50,7 @@ function Viewer() {
                 style={{ height: "100vh" }} // Adjust the height of the container to fill the viewport
             >
                 <h1>Dimension Swap</h1>
-                {!isXrSupported ?
-                    <Grid item>
-                        <h3>XR is not supported</h3>
-                    </Grid>
-                    :
-                    <Grid item>
-                        <Grid container direction="row" alignItems="center">
-                            <Grid item style={{ width: "10vh" }}>
-                                <Switch
-                                    checked={mode === "AR"}
-                                    onChange={handleSceneModeChange}
-                                    name="scene-mode-switch"
-                                />
-                            </Grid>
-
-
-
-                            <Grid item style={{ width: "15vh" }}>
-                                <label htmlFor="scene-mode-switch">
-                                    {mode === "VR" ? "VR Mode" : "AR Mode"}
-                                </label>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                }
+                
                 <Grid item>
                     <Grid container direction="row" alignItems="center">
                         <Grid item style={{ width: "10vh" }}>

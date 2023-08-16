@@ -3,6 +3,7 @@ import { useThree } from "@react-three/fiber";
 import { Interactive, useHitTest, useXR } from "@react-three/xr";
 import { useRef, useState } from "react";
 import Model from "./Model";
+import { OrbitControls } from "@react-three/drei";
 
 
 
@@ -15,6 +16,7 @@ const XrHitModel = (props) => {
   const [scaleAddition] = useState(0.0005);
 
   const { isPresenting } = useXR();
+  const [isAutoRotating, setIsAutoRotating] = useState(true);
 
   useThree(({ camera }) => {
     if (!isPresenting) {
@@ -52,17 +54,17 @@ const XrHitModel = (props) => {
 
   const placeModel = (e) => {
     let position = e.intersection.object.position.clone();
-    const offset = 0.05; 
+    const offset = 0.05;
     position.y += offset;
 
     setCurrentModel({ position: position, rotation: currentModel.rotation });
   };
 
-  const makeModelBigger = ()=>{
+  const makeModelBigger = () => {
     setModelScale(modelScale + scaleAddition)
   }
-  const makeModelSmaller = ()=>{
-    if( modelScale > scaleAddition)setModelScale(modelScale - scaleAddition)
+  const makeModelSmaller = () => {
+    if (modelScale > scaleAddition) setModelScale(modelScale - scaleAddition)
   }
 
   const turnModel = (e) => {
@@ -71,6 +73,10 @@ const XrHitModel = (props) => {
 
     setCurrentModel({ position: currentModel.position, rotation: newRotation });
   };
+
+  const handleTouchStart =() => {
+    if(isAutoRotating) setIsAutoRotating(false)
+  }
 
   return (
     <>
@@ -108,7 +114,18 @@ const XrHitModel = (props) => {
         </>
       )}
 
-      {!isPresenting && <Model modelUrl={props.modelUrl}/>}
+      {!isPresenting &&
+        <>
+        <group onPointerDown={handleTouchStart}>
+          <OrbitControls autoRotate={isAutoRotating} />
+          <ambientLight intensity={1} />
+          <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, 10]} />
+          <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, -10]} />
+          <spotLight intensity={1} angle={1.5} penumbra={1} position={[10, 15, 0]} />
+          <spotLight intensity={1} angle={1.5} penumbra={1} position={[-10, 15, 0]} />
+          <Model modelUrl={props.modelUrl} />
+          </group>
+        </>}
     </>
   );
 };
