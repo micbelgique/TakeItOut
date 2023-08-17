@@ -39,7 +39,7 @@ function Viewer() {
             >
                 <h1>Dimension Swap</h1>
 
-                {modelUrl !=="" ?
+                {modelUrl !== "" ?
 
                     <Grid item style={{ flex: 1, width: "100%" }}>
                         {(mode === "AR") &&
@@ -49,7 +49,11 @@ function Viewer() {
                                 }} />
                                 <Canvas >
                                     <XR referenceSpace="local">
-
+                                        <ambientLight intensity={1} />
+                                        <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, 10]} />
+                                        <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, -10]} />
+                                        <spotLight intensity={1} angle={1.5} penumbra={1} position={[10, 15, 0]} />
+                                        <spotLight intensity={1} angle={1.5} penumbra={1} position={[-10, 15, 0]} />
                                         <XrHitModel modelUrl={modelUrl} scale={scale} />
 
                                     </XR>

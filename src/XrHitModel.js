@@ -116,11 +116,7 @@ const XrHitModel = (props) => {
 
       {!isPresenting &&
         <>
-          <ambientLight intensity={1} />
-          <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, 10]} />
-          <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, -10]} />
-          <spotLight intensity={1} angle={1.5} penumbra={1} position={[10, 15, 0]} />
-          <spotLight intensity={1} angle={1.5} penumbra={1} position={[-10, 15, 0]} />
+          
           <group onPointerDown={handleTouchStart}>
             <OrbitControls autoRotate={isAutoRotating} />
             <Model modelUrl={props.modelUrl} />
