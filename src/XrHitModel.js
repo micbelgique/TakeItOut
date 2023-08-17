@@ -74,8 +74,8 @@ const XrHitModel = (props) => {
     setCurrentModel({ position: currentModel.position, rotation: newRotation });
   };
 
-  const handleTouchStart =() => {
-    if(isAutoRotating) setIsAutoRotating(false)
+  const handleTouchStart = () => {
+    if (isAutoRotating) setIsAutoRotating(false)
   }
 
   return (
@@ -116,14 +116,14 @@ const XrHitModel = (props) => {
 
       {!isPresenting &&
         <>
-        <group onPointerDown={handleTouchStart}>
-          <OrbitControls autoRotate={isAutoRotating} />
           <ambientLight intensity={1} />
           <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, 10]} />
           <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, -10]} />
           <spotLight intensity={1} angle={1.5} penumbra={1} position={[10, 15, 0]} />
           <spotLight intensity={1} angle={1.5} penumbra={1} position={[-10, 15, 0]} />
-          <Model modelUrl={props.modelUrl} />
+          <group onPointerDown={handleTouchStart}>
+            <OrbitControls autoRotate={isAutoRotating} />
+            <Model modelUrl={props.modelUrl} />
           </group>
         </>}
     </>

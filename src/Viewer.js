@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Canvas, } from "react-three-fiber";
-import { Grid} from "@mui/material/";
+import { CircularProgress, Grid } from "@mui/material/";
 import { XR, ARButton, VRButton, } from '@react-three/xr'
 
 import XrHitModel from "./XrHitModel";
 
 import VRScene from "./VRScene";
-import {isMobile} from 'react-device-detect';
+import { isMobile } from 'react-device-detect';
 
 function Viewer() {
     const searchParams = new URLSearchParams(document.location.search);
     const [mode, setMode] = useState("VR");
-  
+
 
     const [modelUrl] = useState(
-        decodeURIComponent(searchParams.get("URL") ?? "")
+        decodeURIComponent(searchParams.get("URL"))
     );
-    console.log("LE URL: "+modelUrl)
+
+    console.log("LE URL: " + modelUrl)
     const [scale] = useState(parseFloat(searchParams.get("SCALE") ?? "0.1"));
-    
+
     useEffect(() => {
         async function checkXRSupport() {
             const supported = await navigator.xr.isSessionSupported("immersive-vr");
@@ -37,36 +38,39 @@ function Viewer() {
                 style={{ height: "100vh" }} // Adjust the height of the container to fill the viewport
             >
                 <h1>Dimension Swap</h1>
-                
-                
 
-                <Grid item style={{ flex: 1, width: "100%" }}>
-                    {(mode === "AR") &&
-                        <>
-                            <ARButton sessionInit={{
-                                requiredFeatures: ["hit-test"],
-                            }} />
-                            <Canvas >
-                                <XR referenceSpace="local">
-                                    
-                                    <XrHitModel modelUrl={modelUrl} scale={scale}/>
+                {modelUrl !=="" ?
 
-                                </XR>
-                            </Canvas>
-                        </>
-                    }
+                    <Grid item style={{ flex: 1, width: "100%" }}>
+                        {(mode === "AR") &&
+                            <>
+                                <ARButton sessionInit={{
+                                    requiredFeatures: ["hit-test"],
+                                }} />
+                                <Canvas >
+                                    <XR referenceSpace="local">
 
-                    {(mode === "VR") &&
-                        <>
-                            <VRButton />
-                            <Canvas>
-                                <XR>
-                                    <VRScene modelUrl={modelUrl} scale={scale} />
-                                </XR>
-                            </Canvas>
-                        </>
-                    }
-                </Grid>
+                                        <XrHitModel modelUrl={modelUrl} scale={scale} />
+
+                                    </XR>
+                                </Canvas>
+                            </>
+                        }
+
+                        {(mode === "VR") &&
+                            <>
+                                <VRButton />
+                                <Canvas>
+                                    <XR>
+                                        <VRScene modelUrl={modelUrl} scale={scale} />
+                                    </XR>
+                                </Canvas>
+                            </>
+                        }
+                    </Grid>
+                    :
+                    <CircularProgress />
+                }
             </Grid>
         </>
     );
