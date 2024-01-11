@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Canvas, } from "react-three-fiber";
-import { CircularProgress, Grid } from "@mui/material/";
+import { CircularProgress, Grid, createStyles } from "@mui/material/";
 import { XR, ARButton, VRButton, } from '@react-three/xr'
 
 import XrHitModel from "./XrHitModel";
+import HitModel from "./HitModel";
 
 import VRScene from "./VRScene";
 import { isMobile } from 'react-device-detect';
@@ -22,10 +23,14 @@ function Viewer() {
 
     useEffect(() => {
         async function checkXRSupport() {
-            const supported = await navigator.xr.isSessionSupported("immersive-vr");
-            setMode((!isMobile && supported) ? "VR" : "AR")
+            if (navigator.xr) {
+                const supported = await navigator.xr.isSessionSupported("immersive-vr");
+                setMode((!isMobile && supported) ? "VR" : "AR");
+            } else {
+                console.error("WebXR not supported in this browser.");
+                setMode("not supported");
+            }
         }
-
         checkXRSupport();
     }, []);
 
@@ -38,10 +43,20 @@ function Viewer() {
                 style={{ height: "100vh" }} // Adjust the height of the container to fill the viewport
             >
                 <h1>Dimension Swap</h1>
-
-                {modelUrl !== "" ?
-
+                {modelUrl !== "" ?                    
                     <Grid item style={{ flex: 1, width: "100%" }}>
+                        {(mode === "not supported") &&
+                        <>
+                            <Canvas >
+                            <ambientLight intensity={1} />
+                                        <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, 10]} />
+                                        <spotLight intensity={1} angle={1.5} penumbra={1} position={[0, 15, -10]} />
+                                        <spotLight intensity={1} angle={1.5} penumbra={1} position={[10, 15, 0]} />
+                                        <spotLight intensity={1} angle={1.5} penumbra={1} position={[-10, 15, 0]} />
+                                        <HitModel modelUrl={modelUrl} scale={scale} />
+                            </Canvas>
+                            </>
+                        }
                         {(mode === "AR") &&
                             <>
                                 <ARButton sessionInit={{
@@ -55,7 +70,6 @@ function Viewer() {
                                         <spotLight intensity={1} angle={1.5} penumbra={1} position={[10, 15, 0]} />
                                         <spotLight intensity={1} angle={1.5} penumbra={1} position={[-10, 15, 0]} />
                                         <XrHitModel modelUrl={modelUrl} scale={scale} />
-
                                     </XR>
                                 </Canvas>
                             </>
