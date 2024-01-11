@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Canvas, } from "react-three-fiber";
-import { CircularProgress, Grid, createStyles } from "@mui/material/";
+import { CircularProgress, Grid } from "@mui/material/";
 import { XR, ARButton, VRButton, } from '@react-three/xr'
 
 import XrHitModel from "./XrHitModel";
