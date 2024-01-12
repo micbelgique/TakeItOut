@@ -1,21 +1,26 @@
-import { useRef, useState } from "react";
+import { useRef, useState,useEffect } from "react";
 import { useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+
+
 import Model from "./Model";
 
 const HitModel = (props) => {
   const reticleRef = useRef();
   const [currentModel] = useState({
-    position: [0, 0, 0], // Nouvelle position centrée
-    rotation: [0, 0, 0],
+    position: [0, 0, 0], 
+        
   });
+
+  useEffect(() => {
+   
+    reticleRef.current.rotation.set(props.rotation[0], props.rotation[1], props.rotation[2]);
+  }, [props.rotation]);
   const [modelScale] = useState(props.scale || 0.0150);
 
   useThree(({ camera }) => {
     camera.position.z = 2;
   });
-
-
 
   const handleTouchStart = () => {
     
@@ -25,11 +30,11 @@ const HitModel = (props) => {
     <>
       <ambientLight />
       <group onPointerDown={handleTouchStart}>
-        <OrbitControls autoRotate={true} />
+        <OrbitControls autoRotate={false} />
         <Model
           modelUrl={props.modelUrl}
+          rotation={props.rotation}
           position={currentModel.position}
-          rotation={currentModel.rotation}
           scale={[modelScale, modelScale, modelScale]}
         />
       </group>

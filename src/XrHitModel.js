@@ -10,7 +10,7 @@ import { OrbitControls } from "@react-three/drei";
 const XrHitModel = (props) => {
   const reticleRef = useRef();
 
-  const [currentModel, setCurrentModel] = useState({ position: [10, 0, 0], rotation: [0, 0, 0] });
+  const [currentModel, setCurrentModel] = useState({ position: [0, 0, 0], rotation: [0, 0, 0] });
   const [modelScale] = useState(props.scale || 0.0150)
 
 
