@@ -23,7 +23,7 @@ const HitModel = (props) => {
   });
 
   const handleTouchStart = () => {
-    
+    console.log(reticleRef.current.rotation.position)
   };
 
   return (

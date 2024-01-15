@@ -15,7 +15,7 @@ const XrHitModel = (props) => {
 
 
   const { isPresenting } = useXR();
-  const [isAutoRotating, setIsAutoRotating] = useState(true);
+  const [isAutoRotating, setIsAutoRotating] = useState(false);
 
   useThree(({ camera }) => {
     if (!isPresenting) {
