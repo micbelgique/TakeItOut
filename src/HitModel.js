@@ -2,7 +2,6 @@ import { useRef, useState,useEffect } from "react";
 import { useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
-
 import Model from "./Model";
 
 const HitModel = (props) => {

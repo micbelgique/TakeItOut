@@ -16,8 +16,8 @@ function Viewer() {
   const [mode, setMode] = useState("VR");
   const [rotation, setRotation] = useState([0, 0, 0]);
 
-  const [currentView, setCurrentView] = useState("top");
-  const [title, setTitle] = useState("Vue du haut"); // Ajout du titre
+  const [currentView, setCurrentView] = useState("front");
+  const [title, setTitle] = useState("Vue du frontale"); // Ajout du titre
 
   const controls = useRef();
 
@@ -83,17 +83,24 @@ function Viewer() {
 
   return (
     <>
-      <Typography
+     <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <h1
         style={{
           fontSize: "2.9em",
         }}
       >
         Dimension Swap
-      </Typography>
-      <Grid container spacing={0} marginTop={2}>
+      </h1>
+      <Grid container spacing={2} marginTop={2}  style={{ width: "100%", maxWidth: "1200px"}}>
         {modelUrl !== "" ? (
           <>
-            <Grid item xs={8} height={750}>
+            <Grid item xs={8} height={700}>
               {mode === "not supported" && (
                 <>
                   <Canvas>
@@ -181,20 +188,11 @@ function Viewer() {
                 </>
               )}
             </Grid>
-            <Grid item xs={4} marginTop={15}>
-              <h1 style={{ fontSize: "1.5em", marginBottom: "15px" }}>
+            <Grid item xs={4} marginTop={2}>
+              <h1 style={{ fontSize: "2.5em", padding:"2%",paddingRight:"2%" }}>
                 {title}
               </h1>
-              <p style={{ fontSize: "1.2em", marginBottom: "15px" }}>
-                Découvrez notre innovation tridimensionnelle exceptionnelle.
-                Plongez dans une expérience visuelle immersive avec notre objet
-                3D révolutionnaire.
-              </p>
-              <p style={{ marginBottom: "15px" }}>
-                Notre objet est méticuleusement conçu pour capturer l'essence
-                même de l'élégance et de la fonctionnalité. Explorez chaque
-                facette en utilisant les commandes ci-dessous :
-              </p>
+            
               {["top", "side", "front", "back"].map((view) => {
                 if (view !== currentView) {
                   return (
@@ -207,6 +205,9 @@ function Viewer() {
                         marginRight: "10px",
                         padding: "10px 20px",
                         borderRadius: "8px",
+                
+                        maxWidth: "300px",
+                        marginBottom: "10px",
                       }}
                       onClick={() => handleViewChange(view)}
                     >
@@ -219,31 +220,25 @@ function Viewer() {
                         ? "frontale"
                         : "arrière"}
                     </Button>
+                    
                   );
                 }
                 return null;
               })}
-              <p style={{ marginTop: "20px", color: "#777" }}>
+                <p style={{ fontSize: "1.2em",paddingRight:"2%" }}>
+                Découvrez notre innovation tridimensionnelle exceptionnelle.
+                Plongez dans une expérience visuelle immersive avec notre objet
+                3D révolutionnaire.
+              </p>
+              <p style={{ marginBottom: "15px",paddingRight:"2%" }}>
+                Notre objet est méticuleusement conçu pour capturer l'essence
+                même de l'élégance et de la fonctionnalité. Explorez chaque
+                facette en utilisant les commandes ci-dessous :
+              </p>
+                <p style={{color:"#7777",paddingRight:"2%" }}>
                 Explorez notre objet sous tous les angles pour apprécier son
                 design innovant. Relevez le niveau de votre expérience visuelle
                 dès maintenant.
-              </p>
-              <p>
-                Chaque détail est une fusion parfaite de forme et de fonction,
-                créant une œuvre d'art technologique. Notre objet redéfinit les
-                normes avec son esthétique raffinée et ses performances
-                exceptionnelles.
-              </p>
-              <p>
-                Que vous soyez passionné par le design ou à la recherche d'une
-                expérience utilisateur exceptionnelle, notre objet 3D est conçu
-                pour répondre à toutes vos attentes.
-              </p>
-              <p>
-                La qualité de fabrication et l'ingénierie de pointe sont les
-                piliers de notre engagement envers l'excellence. Découvrez une
-                nouvelle dimension de la technologie avec notre objet 3D unique
-                en son genre.
               </p>
             </Grid>
           </>
@@ -251,6 +246,8 @@ function Viewer() {
           <CircularProgress />
         )}
       </Grid>
+      </div>
+  
     </>
   );
 }
