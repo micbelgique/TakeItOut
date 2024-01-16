@@ -7,14 +7,13 @@ import Model from "./Model";
 const HitModel = (props) => {
   const reticleRef = useRef();
   const [currentModel] = useState({
-    position: [0, 0, 0], 
-        
+    position: [0, 0, 0],       
   });
 
   useEffect(() => {
-   
     reticleRef.current.rotation.set(props.rotation[0], props.rotation[1], props.rotation[2]);
   }, [props.rotation]);
+  
   const [modelScale] = useState(props.scale || 0.0150);
 
   useThree(({ camera }) => {
