@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Canvas } from "react-three-fiber";
-import { CircularProgress, Grid, Button } from "@mui/material/";
+import { CircularProgress, Grid, Button,useMediaQuery  } from "@mui/material/";
 import { XR, ARButton, VRButton } from "@react-three/xr";
 import { OrbitControls } from "@react-three/drei";
 import XrHitModel from "./XrHitModel";
@@ -8,14 +8,16 @@ import HitModel from "./HitModel";
 import VRScene from "./VRScene";
 import { isMobile } from "react-device-detect";
 
+
 function Viewer() {
   const searchParams = new URLSearchParams(document.location.search);
   const [mode, setMode] = useState("not supported");
   const [rotation, setRotation] = useState([0, 0, 0]);
- 
+  const isSmallScreen = useMediaQuery("(max-width:800px)");
+
   const [currentView, setCurrentView] = useState("front");
-  const [title, setTitle] = useState("Vue du frontale");
-  const [dimensions, setDimensions] = useState("webXr"); 
+
+  const [dimensions, setDimensions] = useState("webXr");
   const controls = useRef();
 
   const rotateToView = (targetRotation, view) => {
@@ -42,24 +44,17 @@ function Viewer() {
   };
 
   const handleViewChange = (view) => {
-    let newTitle = "";
     if (view === "top") {
       rotateToView([1.5, 0.5, 0], "top");
-      newTitle = "Vue du haut";
     } else if (view === "side") {
       rotateToView([0, 1.5, 0], "side");
-      newTitle = "Vue latérale";
     } else if (view === "back") {
       rotateToView([0, 3.2, 0], "back");
-      newTitle = "Vue arrière";
     } else if (view === "front") {
-      rotateToView([0, 0, 0], "back");
-      newTitle = "Vue centrale";
+      rotateToView([0, 0, 0], "front");
     }
     setCurrentView(view);
-    setTitle(newTitle);
   };
-  
 
   const [modelUrl] = useState(decodeURIComponent(searchParams.get("URL")));
 
@@ -67,8 +62,8 @@ function Viewer() {
   const [scale] = useState(parseFloat(searchParams.get("SCALE") ?? "0.1"));
 
   const swapdimensions = async () => {
-    setMode("AR")
-    if(mode === "AR"){
+    setMode("AR");
+    if (mode === "AR") {
       setMode("not supported");
     }
   };
@@ -92,7 +87,7 @@ function Viewer() {
         style={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          alignItems: "center",   
         }}
       >
         <h1
@@ -106,7 +101,10 @@ function Viewer() {
           container
           spacing={2}
           marginTop={2}
-          style={{ width: "100%", maxWidth: "1200px" }}
+          style={{ width: "100%", maxWidth: "1200px", justifyContent: "center", 
+          height: "100vh",
+          margin: "auto",  }}
+          
         >
           {modelUrl !== "" ? (
             <>
@@ -206,33 +204,24 @@ function Viewer() {
                   </>
                 )}
               </Grid>
-              <Grid item xs={4} marginTop={2}>
-                <h1
-                  style={{
-                    fontSize: "2.5em",
-                    padding: "2%",
-                    paddingRight: "2%",
-                  }}
-                >
-                  {title}
-                </h1>
-
+              <Grid item xs={isSmallScreen ? 6 : 4} marginTop={10}>
                 {["top", "side", "front", "back"].map((view) => {
-                  if (view !== currentView) {
                     return (
                       <>
                         <Button
                           key={view}
                           style={{
-                            background: "#2e2e30",
-                            color: "#fff",
+                            background:
+                            view === currentView ? "#D2D2D2" : "#2e2e30",
+                            color: "white",
                             fontSize: "0.9em",
                             marginRight: "10px",
                             padding: "10px 20px",
                             borderRadius: "8px",
-
                             maxWidth: "300px",
                             marginBottom: "10px",
+                            width: "120px",
+                            height: "80px",
                           }}
                           onClick={() => handleViewChange(view)}
                         >
@@ -247,27 +236,27 @@ function Viewer() {
                         </Button>
                       </>
                     );
-                  }
-                  return null;
+
                 })}
-                {
-                  (dimensions === "webxr" && (
-                    <Button
-                      style={{
-                        background: "#217ace",
-                        color: "#fff",
-                        fontSize: "0.9em",
-                        marginRight: "10px",
-                        padding: "10px 20px",
-                        borderRadius: "8px",
-                        maxWidth: "300px",
-                        marginBottom: "10px",
-                      }}
-                      onClick={() =>swapdimensions()}
-                    >
-                      Swap dimension
-                    </Button>
-                  ))}
+                {dimensions === "webxr" && (
+                  <Button
+                    style={{
+                      background: "#217ace",
+                      color: "#fff",
+                      fontSize: "0.9em",
+                      marginRight: "10px",
+                      padding: "10px 20px",
+                      borderRadius: "8px",
+                      maxWidth: "300px",
+                      marginBottom: "10px",
+                      width: "250px",
+                      height: "80px",
+                    }}
+                    onClick={() => swapdimensions()}
+                  >
+                    Swap dimension
+                  </Button>
+                )}
                 <p style={{ fontSize: "1.2em", paddingRight: "2%" }}>
                   Découvrez notre innovation tridimensionnelle exceptionnelle.
                   Plongez dans une expérience visuelle immersive avec notre
