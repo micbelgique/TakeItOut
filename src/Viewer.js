@@ -7,6 +7,7 @@ import XrHitModel from "./XrHitModel";
 import HitModel from "./HitModel";
 import VRScene from "./VRScene";
 import { isMobile } from "react-device-detect";
+import ArModelView from "./component/ArModelView";
 
 
 function Viewer() {
@@ -72,7 +73,7 @@ function Viewer() {
     async function checkXRSupport() {
       if (navigator.xr) {
         const supported = await navigator.xr.isSessionSupported("immersive-vr");
-        setDimensions(isMobile && supported ? "webxr" : "webxr");
+        setDimensions(isMobile && supported ? "VR" : "AR");
       } else {
         console.error("WebXR not supported in this browser.");
         setMode("not supported");
@@ -111,7 +112,8 @@ function Viewer() {
               <Grid item xs={8} height={700}>
                 {mode === "not supported" && (
                   <>
-                    <Canvas>
+                   {/* <ArModelView/> */}
+                     <Canvas>
                       <OrbitControls ref={controls} />
                       <ambientLight intensity={1} />
                       <spotLight
@@ -143,50 +145,12 @@ function Viewer() {
                         scale={scale}
                         rotation={rotation}
                       />
-                    </Canvas>
+                    </Canvas> 
                   </>
                 )}
                 {mode === "AR" && (
                   <>
-                    <ARButton
-                      sessionInit={{
-                        requiredFeatures: ["hit-test"],
-                      }}
-                    />
-                    <Canvas>
-                      <XR referenceSpace="local">
-                        <ambientLight intensity={1} />
-                        <spotLight
-                          intensity={1}
-                          angle={1.5}
-                          penumbra={1}
-                          position={[0, 15, 10]}
-                        />
-                        <spotLight
-                          intensity={1}
-                          angle={1.5}
-                          penumbra={1}
-                          position={[0, 15, -10]}
-                        />
-                        <spotLight
-                          intensity={1}
-                          angle={1.5}
-                          penumbra={1}
-                          position={[10, 15, 0]}
-                        />
-                        <spotLight
-                          intensity={1}
-                          angle={1.5}
-                          penumbra={1}
-                          position={[-10, 15, 0]}
-                        />
-                        <XrHitModel
-                          modelUrl={modelUrl}
-                          scale={scale}
-                          rotation={rotation}
-                        />
-                      </XR>
-                    </Canvas>
+                  <ArModelView/>
                   </>
                 )}
                 {mode === "VR" && (
@@ -238,7 +202,7 @@ function Viewer() {
                     );
 
                 })}
-                {dimensions === "webxr" && (
+                {dimensions === "AR" && (
                   <Button
                     style={{
                       background: "#217ace",
@@ -247,10 +211,11 @@ function Viewer() {
                       marginRight: "10px",
                       padding: "10px 20px",
                       borderRadius: "8px",
-                      maxWidth: "300px",
+                     
                       marginBottom: "10px",
                       width: "250px",
                       height: "80px",
+                    
                     }}
                     onClick={() => swapdimensions()}
                   >

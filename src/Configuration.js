@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Container, TextField, Typography } from "@mui/material";
 
+
 function Configuration() {
     const [urlField, setUrlField] = useState("");
     const [scaleField, setScaleField] = useState(0.1);
