@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Canvas } from "react-three-fiber";
 import { CircularProgress, Grid, Button,useMediaQuery  } from "@mui/material/";
-import { XR, ARButton, VRButton } from "@react-three/xr";
+import { XR, VRButton } from "@react-three/xr";
 import { OrbitControls } from "@react-three/drei";
-import XrHitModel from "./XrHitModel";
+
 import HitModel from "./HitModel";
 import VRScene from "./VRScene";
 import { isMobile } from "react-device-detect";
@@ -150,7 +150,7 @@ function Viewer() {
                 )}
                 {mode === "AR" && (
                   <>
-                  <ArModelView/>
+                  <ArModelView modelUrl={modelUrl}/>
                   </>
                 )}
                 {mode === "VR" && (

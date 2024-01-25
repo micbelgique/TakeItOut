@@ -1,7 +1,7 @@
 import React from "react";
 import "@google/model-viewer";
 
-const ArModelView = (props) => {
+const ArModelView = ({ modelUrl }) => {
   return (
     <div>
       <model-viewer
@@ -12,7 +12,7 @@ const ArModelView = (props) => {
           height: "50vh",
         }}
         alt="batiment"
-        src="https://sa0dimensionswap.blob.core.windows.net/models/SecondModifiedBatiment.gltf"
+        src={modelUrl}
         ar
         ar-modes="scene-viewer quick-look webxr"
         shadow-intensity="1"
