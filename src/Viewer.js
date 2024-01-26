@@ -6,7 +6,7 @@ import { OrbitControls } from "@react-three/drei";
 
 import HitModel from "./HitModel";
 import VRScene from "./VRScene";
-import { isMobile } from "react-device-detect";
+import { isMobile,isDesktop } from "react-device-detect";
 import ArModelView from "./component/ArModelView";
 
 
@@ -15,10 +15,7 @@ function Viewer() {
   const [mode, setMode] = useState("not supported");
   const [rotation, setRotation] = useState([0, 0, 0]);
   const isSmallScreen = useMediaQuery("(max-width:800px)");
-
   const [currentView, setCurrentView] = useState("front");
-
-  const [dimensions, setDimensions] = useState("webXr");
   const controls = useRef();
 
   const rotateToView = (targetRotation, view) => {
@@ -62,18 +59,18 @@ function Viewer() {
   console.log(" URL: " + modelUrl);
   const [scale] = useState(parseFloat(searchParams.get("SCALE") ?? "0.1"));
 
-  const swapdimensions = async () => {
-    setMode("AR");
-    if (mode === "AR") {
-      setMode("not supported");
-    }
-  };
+  
 
   useEffect(() => {
     async function checkXRSupport() {
       if (navigator.xr) {
         const supported = await navigator.xr.isSessionSupported("immersive-vr");
-        setDimensions(isMobile && supported ? "VR" : "AR");
+        setMode(isMobile && supported ? "VR" : "AR");
+        if(isDesktop){
+          setMode("not supported");
+        }
+      
+    
       } else {
         console.error("WebXR not supported in this browser.");
         setMode("not supported");
@@ -172,6 +169,7 @@ function Viewer() {
                 {["top", "side", "front", "back"].map((view) => {
                     return (
                       <>
+                        {mode === "not supported" && (
                         <Button
                           key={view}
                           style={{
@@ -198,30 +196,12 @@ function Viewer() {
                             ? "frontale"
                             : "arrière"}
                         </Button>
+                          )}
                       </>
+                    
                     );
 
                 })}
-                {dimensions === "AR" && (
-                  <Button
-                    style={{
-                      background: "#217ace",
-                      color: "#fff",
-                      fontSize: "0.9em",
-                      marginRight: "10px",
-                      padding: "10px 20px",
-                      borderRadius: "8px",
-                     
-                      marginBottom: "10px",
-                      width: "250px",
-                      height: "80px",
-                    
-                    }}
-                    onClick={() => swapdimensions()}
-                  >
-                    Swap dimension
-                  </Button>
-                )}
                 <p style={{ fontSize: "1.2em", paddingRight: "2%" }}>
                   Découvrez notre innovation tridimensionnelle exceptionnelle.
                   Plongez dans une expérience visuelle immersive avec notre
