@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Canvas } from "react-three-fiber";
-import { CircularProgress, Grid, Button,useMediaQuery  } from "@mui/material/";
+import { CircularProgress, Grid, Button, useMediaQuery } from "@mui/material/";
 import { XR, VRButton } from "@react-three/xr";
 import { OrbitControls } from "@react-three/drei";
 
@@ -8,7 +8,6 @@ import HitModel from "./HitModel";
 import VRScene from "./VRScene";
 import { isMobile } from "react-device-detect";
 import ArModelView from "./component/ArModelView";
-
 
 function Viewer() {
   const searchParams = new URLSearchParams(document.location.search);
@@ -58,23 +57,19 @@ function Viewer() {
   console.log(" URL: " + modelUrl);
   const [scale] = useState(parseFloat(searchParams.get("SCALE") ?? "0.1"));
 
-  
-
   useEffect(() => {
     async function checkXRSupport() {
-      
-        const supported = await navigator.xr?.isSessionSupported("immersive-vr");
-        if(supported){
-          setMode("VR");
-          return;
-        }
-        if(isMobile){
-          setMode("AR");
-          return;
-        }
-        console.error("WebXR not supported in this browser.");
-        setMode("not supported");
-      
+      if (isMobile) {
+        setMode("AR");
+        return;
+      }
+      const supported = await navigator.xr?.isSessionSupported("immersive-vr");
+      if (supported) {
+        setMode("VR");
+        return;
+      }
+      console.error("WebXR not supported in this browser.");
+      setMode("not supported");
     }
     checkXRSupport();
   }, []);
@@ -85,7 +80,7 @@ function Viewer() {
         style={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",   
+          alignItems: "center",
         }}
       >
         <h1
@@ -99,18 +94,21 @@ function Viewer() {
           container
           spacing={2}
           marginTop={2}
-          style={{ width: "100%", maxWidth: "1200px", justifyContent: "center", 
-          height: "100vh",
-          margin: "auto",  }}
-          
+          style={{
+            width: "100%",
+            maxWidth: "1200px",
+            justifyContent: "center",
+            height: "100vh",
+            margin: "auto",
+          }}
         >
           {modelUrl !== "" ? (
             <>
               <Grid item xs={8} height={700}>
                 {mode === "not supported" && (
                   <>
-                   {/* <ArModelView/> */}
-                     <Canvas>
+                    {/* <ArModelView/> */}
+                    <Canvas>
                       <OrbitControls ref={controls} />
                       <ambientLight intensity={1} />
                       <spotLight
@@ -142,12 +140,12 @@ function Viewer() {
                         scale={scale}
                         rotation={rotation}
                       />
-                    </Canvas> 
+                    </Canvas>
                   </>
                 )}
                 {mode === "AR" && (
                   <>
-                  <ArModelView modelUrl={modelUrl}/>
+                    <ArModelView modelUrl={modelUrl} />
                   </>
                 )}
                 {mode === "VR" && (
@@ -167,14 +165,14 @@ function Viewer() {
               </Grid>
               <Grid item xs={isSmallScreen ? 6 : 4} marginTop={10}>
                 {["top", "side", "front", "back"].map((view) => {
-                    return (
-                      <>
-                        {mode === "not supported" && (
+                  return (
+                    <>
+                      {mode === "not supported" && (
                         <Button
                           key={view}
                           style={{
                             background:
-                            view === currentView ? "#D2D2D2" : "#2e2e30",
+                              view === currentView ? "#D2D2D2" : "#2e2e30",
                             color: "white",
                             fontSize: "0.9em",
                             marginRight: "10px",
@@ -196,11 +194,9 @@ function Viewer() {
                             ? "frontale"
                             : "arrière"}
                         </Button>
-                          )}
-                      </>
-                    
-                    );
-
+                      )}
+                    </>
+                  );
                 })}
                 <p style={{ fontSize: "1.2em", paddingRight: "2%" }}>
                   Découvrez notre innovation tridimensionnelle exceptionnelle.
