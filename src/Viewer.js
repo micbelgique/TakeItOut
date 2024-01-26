@@ -6,7 +6,7 @@ import { OrbitControls } from "@react-three/drei";
 
 import HitModel from "./HitModel";
 import VRScene from "./VRScene";
-import { isMobile,isDesktop } from "react-device-detect";
+import { isMobile } from "react-device-detect";
 import ArModelView from "./component/ArModelView";
 
 
@@ -55,7 +55,6 @@ function Viewer() {
   };
 
   const [modelUrl] = useState(decodeURIComponent(searchParams.get("URL")));
-
   console.log(" URL: " + modelUrl);
   const [scale] = useState(parseFloat(searchParams.get("SCALE") ?? "0.1"));
 
@@ -63,18 +62,19 @@ function Viewer() {
 
   useEffect(() => {
     async function checkXRSupport() {
-      if (navigator.xr) {
-        const supported = await navigator.xr.isSessionSupported("immersive-vr");
-        setMode(isMobile && supported ? "VR" : "AR");
-        if(isDesktop){
-          setMode("not supported");
-        }
       
-    
-      } else {
+        const supported = await navigator.xr?.isSessionSupported("immersive-vr");
+        if(supported){
+          setMode("VR");
+          return;
+        }
+        if(isMobile){
+          setMode("AR");
+          return;
+        }
         console.error("WebXR not supported in this browser.");
         setMode("not supported");
-      }
+      
     }
     checkXRSupport();
   }, []);
