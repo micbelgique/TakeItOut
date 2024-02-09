@@ -28,6 +28,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 - [@AntoineSmet](https://github.com/AntoineSmet)
 - [@ColartLloyd](https://github.com/Lloydcol)
 - [@FredericCarbonnelle](https://github.com/FredericCarbonnelle)
+- [@NathanHavaux](https://github.com/Morotem)
 
 
 
