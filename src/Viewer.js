@@ -88,7 +88,7 @@ function Viewer() {
             fontSize: "2.9em",
           }}
         >
-          Dimension Swap
+         Take It Out
         </h1>
         <Grid
           container
@@ -107,7 +107,6 @@ function Viewer() {
               <Grid item xs={8} height={700}>
                 {mode === "not supported" && (
                   <>
-                    {/* <ArModelView/> */}
                     <Canvas>
                       <OrbitControls ref={controls} />
                       <ambientLight intensity={1} />
