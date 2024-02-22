@@ -25,7 +25,7 @@ function Configuration() {
       }}
     >
       <Typography variant="h4" sx={{ marginBottom: "2rem" }}>
-        Dimension Swap
+        Take It Out
       </Typography>
       <TextField
         fullWidth
