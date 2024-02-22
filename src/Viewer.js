@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Canvas } from "react-three-fiber";
 import { CircularProgress, Grid, Button, useMediaQuery } from "@mui/material/";
-import { XR, VRButton } from "@react-three/xr";
+import { XR, VRButton, ARButton } from "@react-three/xr";
 import { OrbitControls } from "@react-three/drei";
 
 import HitModel from "./HitModel";
+import XrHitModel from "./XrHitModel";
 import VRScene from "./VRScene";
 import { isMobile } from "react-device-detect";
 import ArModelView from "./component/ArModelView";
@@ -13,9 +14,14 @@ function Viewer() {
   const searchParams = new URLSearchParams(document.location.search);
   const [mode, setMode] = useState("not supported");
   const [rotation, setRotation] = useState([0, 0, 0]);
+  const [isVRExperience, setIsVRExperience] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:800px)");
   const [currentView, setCurrentView] = useState("front");
   const controls = useRef();
+
+  const switchVRExperience = () => {
+    setIsVRExperience((prev) => !prev);
+  };
 
   const rotateToView = (targetRotation, view) => {
     setCurrentView(view);
@@ -88,7 +94,7 @@ function Viewer() {
             fontSize: "2.9em",
           }}
         >
-         Take It Out
+          Take It Out
         </h1>
         <Grid
           container
@@ -149,16 +155,41 @@ function Viewer() {
                 )}
                 {mode === "VR" && (
                   <>
-                    <VRButton />
-                    <Canvas>
-                      <XR>
-                        <VRScene
-                          modelUrl={modelUrl}
-                          scale={scale}
-                          rotation={rotation}
+                    {isVRExperience ? (
+                      <>
+                        <VRButton />
+                        <Canvas>
+                          <XR>
+                            <VRScene
+                              modelUrl={modelUrl}
+                              scale={scale}
+                              rotation={rotation}
+                            />
+                          </XR>
+                        </Canvas>
+                      </>
+                    ) : (
+                      <>
+                        <ARButton
+                          sessionInit={{
+                            requiredFeatures: ["hit-test"],
+                          }}
                         />
-                      </XR>
-                    </Canvas>
+                        <Canvas>
+                          <XR referenceSpace="local">
+                            <ambientLight intensity={1} />
+                            <spotLight
+                              intensity={1}
+                              angle={1.5}
+                              penumbra={1}
+                              position={[0, 15, 10]}
+                            />
+
+                            <XrHitModel modelUrl={modelUrl} scale={scale} />
+                          </XR>
+                        </Canvas>
+                      </>
+                    )}
                   </>
                 )}
               </Grid>
@@ -212,6 +243,23 @@ function Viewer() {
                   design innovant. Relevez le niveau de votre expérience
                   visuelle dès maintenant.
                 </p>
+                <Button
+                  style={{
+                    background: "#0c6dce",
+                    color: "white",
+                    fontSize: "0.9em",
+                    marginRight: "10px",
+                    padding: "10px 20px",
+                    borderRadius: "8px",
+                    maxWidth: "300px",
+                    marginBottom: "10px",
+                    width: "300px",
+                    height: "80px",
+                  }}
+                  onClick={switchVRExperience}
+                >
+                  Switcher d'expérience
+                </Button>
               </Grid>
             </>
           ) : (
