@@ -248,7 +248,7 @@ function Viewer() {
                 </p>
                 <Button
                   onClick={backtoConfiguration}
-                >
+                >  
                   Testez avec vos fichiers
                 </Button>
                 {mode === "VR" && (
