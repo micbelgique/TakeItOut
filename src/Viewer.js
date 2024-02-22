@@ -243,6 +243,7 @@ function Viewer() {
                   design innovant. Relevez le niveau de votre expérience
                   visuelle dès maintenant.
                 </p>
+                {mode === "VR" && (
                 <Button
                   style={{
                     background: "#0c6dce",
@@ -260,6 +261,7 @@ function Viewer() {
                 >
                   Switcher d'expérience
                 </Button>
+                )}
               </Grid>
             </>
           ) : (
