@@ -23,6 +23,9 @@ function Viewer() {
     setIsVRExperience((prev) => !prev);
   };
 
+  const backtoConfiguration = () => {
+    window.location.href = "https://ambitious-cliff-03009ad03.3.azurestaticapps.net/";
+  };
   const rotateToView = (targetRotation, view) => {
     setCurrentView(view);
     const transitionDuration = 700;
@@ -243,6 +246,11 @@ function Viewer() {
                   design innovant. Relevez le niveau de votre expérience
                   visuelle dès maintenant.
                 </p>
+                <Button
+                  onClick={backtoConfiguration}
+                >
+                  Testez avec vos fichiers
+                </Button>
                 {mode === "VR" && (
                 <Button
                   style={{
