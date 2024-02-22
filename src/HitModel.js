@@ -28,7 +28,7 @@ const HitModel = (props) => {
     <>
       <ambientLight />
       <group onPointerDown={handleTouchStart}>
-        <OrbitControls autoRotate={true} />
+        <OrbitControls autoRotate={false} />
         <Model
           modelUrl={props.modelUrl}
           rotation={props.rotation}
