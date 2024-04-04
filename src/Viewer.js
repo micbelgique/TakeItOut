@@ -3,6 +3,7 @@ import { Canvas } from "react-three-fiber";
 import { CircularProgress, Grid, Button, useMediaQuery } from "@mui/material/";
 import { XR, VRButton, ARButton } from "@react-three/xr";
 import { OrbitControls } from "@react-three/drei";
+import QrCodegenerator from "./component/QrCodegenerator";
 
 import HitModel from "./HitModel";
 import XrHitModel from "./XrHitModel";
@@ -251,6 +252,7 @@ function Viewer() {
                 >  
                   Testez avec vos fichiers
                 </Button>
+                <QrCodegenerator />
                 {mode === "VR" && (
                 <Button
                   style={{
