@@ -17,6 +17,6 @@ export default function QrCodegenerator() {
     });
     setImageSrc(canvas.toDataURL("image/png"));
   }, []);
- 
+  
   return <img src={src} alt="Qr Code" />;
 }
