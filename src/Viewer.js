@@ -252,7 +252,7 @@ function Viewer() {
                 >  
                   Testez avec vos fichiers
                 </Button>
-                <QrCodegenerator />
+                <QrCodegenerator/>
                 {mode === "VR" && (
                 <Button
                   style={{
