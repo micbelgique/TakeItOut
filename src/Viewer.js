@@ -4,12 +4,36 @@ import { CircularProgress, Grid, Button, useMediaQuery } from "@mui/material/";
 import { XR, VRButton, ARButton } from "@react-three/xr";
 import { OrbitControls } from "@react-three/drei";
 import QrCodegenerator from "./component/QrCodegenerator";
+import QrCode2Icon from "@mui/icons-material/QrCode2";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 
 import HitModel from "./HitModel";
 import XrHitModel from "./XrHitModel";
 import VRScene from "./VRScene";
 import { isMobile } from "react-device-detect";
 import ArModelView from "./component/ArModelView";
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 300,
+  height: 300,
+  bgcolor: 'background.paper',
+  border: 'none',
+  boxShadow: 24,
+  p: 4,
+  textAlign: 'center',
+  borderRadius: '16px',
+  margin: 'auto',
+  padding: '20px',
+};
+
+
+
+
 
 function Viewer() {
   const searchParams = new URLSearchParams(document.location.search);
@@ -25,8 +49,15 @@ function Viewer() {
   };
 
   const backtoConfiguration = () => {
-    window.location.href = "https://ambitious-cliff-03009ad03.3.azurestaticapps.net/";
+    window.location.href =
+      "https://ambitious-cliff-03009ad03.3.azurestaticapps.net/";
   };
+
+  //MODAL
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const rotateToView = (targetRotation, view) => {
     setCurrentView(view);
     const transitionDuration = 700;
@@ -59,6 +90,8 @@ function Viewer() {
       rotateToView([0, 3.2, 0], "back");
     } else if (view === "front") {
       rotateToView([0, 0, 0], "front");
+    } else if (view === "bottom") {
+      rotateToView([-1.5, 0.5, 0], "bottom");
     }
     setCurrentView(view);
   };
@@ -232,31 +265,10 @@ function Viewer() {
                     </>
                   );
                 })}
-                <p style={{ fontSize: "1.2em", paddingRight: "2%" }}>
-                  Découvrez notre innovation tridimensionnelle exceptionnelle.
-                  Plongez dans une expérience visuelle immersive avec notre
-                  objet 3D révolutionnaire.
-                </p>
-                <p style={{ marginBottom: "15px", paddingRight: "2%" }}>
-                  Notre objet est méticuleusement conçu pour capturer l'essence
-                  même de l'élégance et de la fonctionnalité. Visionnez chaque
-                  facette de notre objet pour en apprécier la beauté.
-                </p>
-                <p style={{ color: "#7777", paddingRight: "2%" }}>
-                  Explorez notre objet sous tous les angles pour apprécier son
-                  design innovant. Relevez le niveau de votre expérience
-                  visuelle dès maintenant.
-                </p>
                 <Button
-                  onClick={backtoConfiguration}
-                >  
-                  Testez avec vos fichiers
-                </Button>
-                <QrCodegenerator/>
-                {mode === "VR" && (
-                <Button
+                  onClick={handleOpen}
                   style={{
-                    background: "#0c6dce",
+                    background: "#2e2e30",
                     color: "white",
                     fontSize: "0.9em",
                     marginRight: "10px",
@@ -264,13 +276,56 @@ function Viewer() {
                     borderRadius: "8px",
                     maxWidth: "300px",
                     marginBottom: "10px",
-                    width: "300px",
+                    width: "120px",
                     height: "80px",
                   }}
-                  onClick={switchVRExperience}
                 >
-                  Switcher d'expérience
+                  <QrCode2Icon style={{ fontSize: 50 }} />
                 </Button>
+                <p style={{ fontSize: "1.2em", paddingRight: "2%" }}>
+                  Le projet démontre la manière dont un objet tridimensionnel
+                  peut facilement être intégré à un site web, quel que soit le
+                  device. Il vous invite à plonger dans une expérience visuelle
+                  immersive en utilisant un exemple d'objet 3D.
+                </p>
+                <p style={{ marginBottom: "15px", paddingRight: "2%" }}>
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-title"
+                    aria-describedby="modal-description"
+                  >
+                    <Box sx={style}>
+                       <QrCodegenerator/>
+                    </Box>
+                  </Modal>
+                </p>
+                <p style={{ color: "#7777", paddingRight: "2%" }}>
+                  Envie de découvrir d'autres cas d'utilisation ? Contactez-nous
+                  à info@mic-belgique.be.
+                </p>
+                <Button onClick={backtoConfiguration}>
+                  Testez avec vos fichiers
+                </Button>
+             
+                {mode === "VR" && (
+                  <Button
+                    style={{
+                      background: "#0c6dce",
+                      color: "white",
+                      fontSize: "0.9em",
+                      marginRight: "10px",
+                      padding: "10px 20px",
+                      borderRadius: "8px",
+                      maxWidth: "300px",
+                      marginBottom: "10px",
+                      width: "300px",
+                      height: "80px",
+                    }}
+                    onClick={switchVRExperience}
+                  >
+                    Switcher d'expérience
+                  </Button>
                 )}
               </Grid>
             </>
