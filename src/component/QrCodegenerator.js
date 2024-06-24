@@ -11,7 +11,7 @@
        bcid: "qrcode",
        text: currentUrl,
        scale: 3,
-       height: 40,
+       height: 30,
        includetext: "true",
        textxalign: "center",
      });
