@@ -16,7 +16,7 @@
        textxalign: "center",
      });
      setImageSrc(canvas.toDataURL("image/png"));
-   }, []);
+   }, [currentUrl]);
   
    return <img src={src} alt="Qr Code" />;
  }
