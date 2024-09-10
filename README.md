@@ -1,3 +1,11 @@
+Take It Out
+
+--------------------
+
+Descriptions
+------------
+
+Ce projet démontre la manière dont un objet tridimensionnel peut facilement être intégré à un site web, quel que soit le device. Il vous invite à plonger dans une expérience visuelle immersive en utilisant un exemple d'objet 3D.
 
 ## Deployment
 
